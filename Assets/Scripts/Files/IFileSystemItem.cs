@@ -1,4 +1,4 @@
-namespace FileStructure
+namespace Files
 {
     public interface IFileSystemItem
     {
