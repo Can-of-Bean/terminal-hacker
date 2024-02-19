@@ -2,20 +2,14 @@ using System;
 
 namespace Commands
 {
-    public class ListCommand : CommandBase
+    public class ListCommand : ICommand
     {
-        public override void Execute()
+        public void Execute()
         {
             throw new NotImplementedException(); // This is waiting for the implementation of the terminal text input
         }
 
-        public override string Name { get; }
-        public override string Description { get; }
-
-        public ListCommand()
-        {
-            Name = "ls";
-            Description = "List all items in the current directory.";
-        }
+        public string Name { get; } = "ls";
+        public string Description { get; } = "List all items in the current directory.";
     }
 }
