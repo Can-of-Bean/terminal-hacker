@@ -11,10 +11,15 @@ namespace Terminal
         private static String Font = "consola SDF";
         private static int FontSize = 16;
         private static Color Color = Color.green;
-        private static GameObject Parent;
+        private static GameObject? Parent;
 
         public static void InputText (string input)
         {
+            if (Parent == null)
+                throw new UnityException("Canvas content object not found." +
+                    " Ensure there is a canvas with a content object in the scene." +
+                    " Additionally ensure that this script is being run on any object in the scene to start it.");
+
             GameObject text = new();
             TMP_Text textComponent = text.AddComponent<TextMeshProUGUI>();
             textComponent.text = input;
