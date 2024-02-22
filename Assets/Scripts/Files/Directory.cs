@@ -13,14 +13,16 @@ namespace Files
             Items = new List<IFileSystemItem>();
         }
 
-        public void AddItem(IFileSystemItem item)
+        public T AddItem<T>(T item) where T : IFileSystemItem
         {
             Items.Add(item);
+            return item;
         }
 
-        public void RemoveItem(IFileSystemItem item)
+        public T RemoveItem<T>(T item) where T : IFileSystemItem
         {
             Items.Remove(item);
+            return item;
         }
 
         public IFileSystemItem GetItem(string name)
