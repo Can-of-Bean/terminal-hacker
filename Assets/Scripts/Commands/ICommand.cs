@@ -8,6 +8,11 @@ namespace Commands
         void Execute();
 
         /// <summary>
+        /// Execute the command with arguments
+        /// </summary>
+        void Execute(string[] args);
+
+        /// <summary>
         /// The Name property represents the name of the command.
         /// </summary>
         string Name { get; }
