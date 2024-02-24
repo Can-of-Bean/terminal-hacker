@@ -5,11 +5,6 @@ namespace Commands
         /// <summary>
         /// Execute the command
         /// </summary>
-        void Execute();
-
-        /// <summary>
-        /// Execute the command with arguments
-        /// </summary>
         void Execute(string[] args);
 
         /// <summary>
