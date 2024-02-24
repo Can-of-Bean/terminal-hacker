@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Files;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,6 +21,8 @@ namespace Terminal
 
         [SerializeField]
         private string m_inputHeader = String.Empty;
+
+        public IFileSystem CurrentFileSystem { get; set; } = LocalFileSystem.Instance;
 
         /// <summary>
         /// Gets or Sets the input header text. This text is what appears above the input field and every time the user enters a command
@@ -46,7 +49,7 @@ namespace Terminal
 
         private void Start()
         {
-            m_inputHeaderDisplay.text = m_inputHeader;
+            m_inputHeaderDisplay.text = $"{m_inputHeader} {CurrentFileSystem.CurrentDirectory.GetPath()}>";
             m_textInputField.Select();
         }
 
