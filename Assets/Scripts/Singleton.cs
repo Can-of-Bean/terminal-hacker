@@ -4,13 +4,18 @@ using UnityEngine;
 public class Singleton<T>
     where T : Singleton<T>, new()
 {
-    public static T Instance { get; private set; } = null!;
-    
-    public Singleton()
-    {
-        if (Instance != null)
-            throw new InvalidOperationException("Cannot create duplicate instance of singleton behaviour");
+    private static T? _instance;
 
-        Instance = new T();
+    public static T Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new T();
+            }
+
+            return _instance;
+        }
     }
 }
