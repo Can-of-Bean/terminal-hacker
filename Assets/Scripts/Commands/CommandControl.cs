@@ -19,8 +19,8 @@ namespace Commands
                 { "ls", new ListCommand() },
                 { "cat", new CatCommand() },
                 { "ssh", new SshCommand()},
-                { "cd", new ChangeDirectoryCommand() }
-                // { "mkdir", new MakeDirectoryCommand() },
+                { "cd", new ChangeDirectoryCommand() },
+                { "mkdir", new MakeDirectoryCommand() }
                 // { "touch", new TouchCommand() },
                 // { "rm", new RemoveCommand() },
                 // { "clear", new ClearCommand() },

@@ -106,9 +106,56 @@ namespace Files
             return GetItem(name) is File;
         }
 
+        public bool Contains(string name)
+        {
+            return Items.Exists(x => x.Name == name);
+        }
+
         public override string ToString()
         {
             return Name;
+        }
+
+        public bool CreateDirectory(string path)
+        {
+            string[] pathParts = path.Split('/');
+            Directory current = this;
+            bool created = false;
+            for (int i = 0; i < pathParts.Length; i++)
+            {
+                string part = pathParts[i];
+                if (part == "..")
+                {
+                    current = current.Parent ?? throw new FileSystemException("Cannot go up from root.");
+                }
+                else if (part == ".")
+                {
+                    continue;
+                }
+                else
+                {
+                    if (Contains(part))
+                    {
+                        if (current.IsDirectory(part))
+                        {
+                            current = (Directory) current.GetItem(part);
+                        }
+                        else
+                        {
+                            throw new FileSystemException($"{part} is not a directory.");
+                        }
+                    }
+                    else
+                    {
+                        Directory newDirectory = new Directory(part, current);
+                        current.AddItem(newDirectory);
+                        current = newDirectory;
+                        created = true;
+                    }
+                }
+            }
+
+            return created;
         }
     }
 }
