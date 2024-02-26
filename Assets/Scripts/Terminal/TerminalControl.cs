@@ -22,6 +22,9 @@ namespace Terminal
         [SerializeField]
         private string m_inputHeader = String.Empty;
 
+        [SerializeField]
+        private string m_startingDirectory = "/home/user";
+
         public IFileSystem CurrentFileSystem { get; set; } = LocalFileSystem.Instance;
 
         /// <summary>
@@ -49,8 +52,11 @@ namespace Terminal
 
         private void Start()
         {
-            m_inputHeaderDisplay.text = $"{m_inputHeader} {CurrentFileSystem.CurrentDirectory.GetPath()}>";
+            m_inputHeaderDisplay.text = $"{m_inputHeader}";
             m_textInputField.Select();
+
+            // Set the starting directory
+            CurrentFileSystem.ChangeDirectory(m_startingDirectory);
         }
 
         private void Update()
