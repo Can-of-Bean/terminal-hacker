@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Files;
 using Terminal;
 
@@ -8,7 +9,7 @@ namespace Commands
         private readonly string _host = "219.22.98.32";
         private readonly string _username = "root";
 
-        public void Execute(string[] args)
+        public void Execute(string[] args, Dictionary<string, string> flags)
         {
             if (args.Length == 0)
             {

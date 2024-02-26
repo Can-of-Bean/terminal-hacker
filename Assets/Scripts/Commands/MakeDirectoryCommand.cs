@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using Terminal;
 
 namespace Commands
 {
     public class MakeDirectoryCommand : ICommand
     {
-        public void Execute(string[] args)
+        public void Execute(string[] args, Dictionary<string, string> flags)
         {
             if (args.Length == 0)
             {

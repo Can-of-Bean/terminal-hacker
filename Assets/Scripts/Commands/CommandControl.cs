@@ -30,16 +30,43 @@ namespace Commands
             };
         }
 
+        private void GetFlags(string[] args, Dictionary<string, string> flags)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i].StartsWith('-'))
+                {
+                    string flag = args[i].Remove(0, 1);
+                    string value = args[i + 1];
+                    flags.Add(flag, value);
+                    args[i] = string.Empty;
+                    args[i + 1] = string.Empty;
+                    i++;
+                }
+                if (args[i].StartsWith("--"))
+                {
+                    string flag = args[i].Remove(0, 2);
+                    string value = args[i + 1];
+                    flags.Add(flag, value);
+                    args[i] = string.Empty;
+                    args[i + 1] = string.Empty;
+                    i++;
+                }
+            }
+        }
+
         private void OnRawInputSubmitted(object sender, TerminalInputEventArgs e)
         {
             string cmd = e.Input.Split(' ')[0];
             string[] args = e.Input.Split(' ')[1..] ?? Array.Empty<string>();
+            Dictionary<string, string> flags = new();
 
             if (commands.TryGetValue(cmd, out ICommand command))
             {
+                GetFlags(args, flags);
                 try
                 {
-                    command.Execute(args);
+                    command.Execute(args, flags);
                 }
                 catch (CommandException ex)
                 {
