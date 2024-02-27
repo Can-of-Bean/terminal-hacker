@@ -1,8 +1,8 @@
 ﻿namespace Terminal
 {
-    public class LoopbackControlTarget : TerminalControlTarget
+    public class LoopbackControlTarget : ITerminalControlTarget
     {
-        public override void HandleUserInput(string message)
+        public void HandleUserInput(string message)
         {
             TerminalControl.Instance.WriteLineToConsole(TerminalControl.Instance.InputHeader + "\n" + message);
         }

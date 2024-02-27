@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
+using Commands.Decryption;
 using Exceptions;
 using Terminal;
 
 namespace Commands
 {
-    public class CommandControl : SingletonBehaviour<CommandControl>
+    public class CommandControl : Singleton<CommandControl>, ITerminalControlTarget
     {
-        private Dictionary<string, ICommand> m_commands = null!;
+        private readonly Dictionary<string, ICommand> m_commands;
 
-        public void Start()
+        public CommandControl()
         {
-            TerminalControl.Instance.RawInputSubmitted += OnRawInputSubmitted;
-
             // Initialize the commands dictionary
             m_commands = new Dictionary<string, ICommand>
             {
@@ -22,6 +21,7 @@ namespace Commands
                 { "cd", new ChangeDirectoryCommand() },
                 { "mkdir", new MakeDirectoryCommand() },
                 { "exit", new ExitSshCommand() },
+                { "decrypt", new DecryptionCommand() },
                 // { "touch", new TouchCommand() },
                 // { "rm", new RemoveCommand() },
                 // { "clear", new ClearCommand() },
@@ -31,10 +31,13 @@ namespace Commands
             };
         }
 
-        private void OnRawInputSubmitted(object sender, TerminalInputEventArgs e)
+        public void HandleUserInput(string message)
         {
-            string cmd = e.Input.Split(' ')[0];
-            string[] args = e.Input.Split(' ')[1..] ?? Array.Empty<string>();
+            string cmd = message.Split(' ')[0];
+            string[] args = message.Split(' ')[1..] ?? Array.Empty<string>();
+
+            // notify the user where the command came from
+            TerminalControl.Instance.WriteLineToConsole(TerminalControl.Instance.InputHeader);
 
             if (m_commands.TryGetValue(cmd, out ICommand command))
             {
