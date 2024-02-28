@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using Commands;
 using Files;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Terminal
 {
@@ -19,6 +19,9 @@ namespace Terminal
 
         [SerializeField]
         private TextMeshProUGUI m_inputHeaderDisplay = null!;
+
+        [SerializeField]
+        private ScrollRect m_textDisplayScrollContainer = null!;
 
         [SerializeField]
         private string m_inputHeader = String.Empty;
@@ -106,11 +109,19 @@ namespace Terminal
         public void WriteToConsole(string text)
         {
             m_textDisplay.text += text;
+            
+            StartCoroutine(ScrollToBottom());
         }
 
         public void WriteLineToConsole(string text)
         {
             WriteToConsole(text + "\n");
+        }
+
+        private IEnumerator ScrollToBottom()
+        {
+            yield return new WaitForEndOfFrame();
+            m_textDisplayScrollContainer.verticalNormalizedPosition = 0;
         }
     }
 }

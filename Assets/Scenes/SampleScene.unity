@@ -397,7 +397,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f9c0f6d44643518a24ade3492b7cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalFilesystemRootCatalogue: {fileID: 0}
+  LocalFilesystemRootCatalogue: {fileID: 11400000, guid: 9223b1b2cdac8254dbf9c5f62b659aab,
+    type: 2}
   RemoteFilesystemRootCatalogue: {fileID: 0}
 --- !u!4 &315815134
 Transform:
@@ -3495,6 +3496,7 @@ MonoBehaviour:
   m_textInputField: {fileID: 1345103599}
   m_textDisplay: {fileID: 273883958}
   m_inputHeaderDisplay: {fileID: 601965394}
+  m_textDisplayScrollContainer: {fileID: 426824322}
   m_inputHeader: 'user@home:'
   m_startingDirectory: /home/user
 --- !u!1660057539 &9223372036854775807
