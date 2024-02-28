@@ -41,6 +41,9 @@ namespace Commands.Decryption
                 TerminalControl.Instance.WriteLineToConsole($"Destination must be a file.");
             }
 
+            // select the key to use
+            // or notify the user and exit on an error
+            string key;
             if (s_decryptionMethods.TryGetValue(args[2], out IDecryptionMethod method))
             {
                 if (method.RequiresKey)
@@ -52,14 +55,12 @@ namespace Commands.Decryption
                     }
                     else
                     {
-                        Decrypt(method, sourceFile, args[1], args[3]);
-                        return;
+                        key = args[3];
                     }
                 }
                 else
                 {
-                    Decrypt(method, sourceFile, args[1], String.Empty);
-                    return;
+                    key = String.Empty;
                 }
             }
             else
@@ -67,6 +68,9 @@ namespace Commands.Decryption
                 TerminalControl.Instance.WriteLineToConsole($"Could not determine decryption method {args[2]}");
                 return;
             }
+            
+            Decrypt(method, sourceFile, args[1], key);
+            TerminalControl.Instance.WriteLineToConsole($"Decrypted to {args[1]}");
         }
 
         private void Decrypt(IDecryptionMethod method, File source, string destination, string key)
