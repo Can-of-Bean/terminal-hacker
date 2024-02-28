@@ -38,9 +38,9 @@ namespace Files
                 fileSystemItem = CurrentDirectory.GetItem(path);
             }
 
-            if (fileSystemItem is Directory)
+            if (fileSystemItem is Directory item)
             {
-                CurrentDirectory = (Directory) fileSystemItem;
+                CurrentDirectory = item;
                 ChangeHeader();
             }
             else
