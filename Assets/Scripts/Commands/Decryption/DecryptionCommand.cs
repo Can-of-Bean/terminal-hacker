@@ -20,7 +20,7 @@ namespace Commands.Decryption
             };
         }
 
-        public void Execute(string[] args)
+        public void Execute(string[] args, Dictionary<string, string> flags)
         {
             if (args.Length < 3 || args.Length > 4)
             {
