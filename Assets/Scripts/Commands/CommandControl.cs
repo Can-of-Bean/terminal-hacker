@@ -22,9 +22,9 @@ namespace Commands
                 { "mkdir", new MakeDirectoryCommand() },
                 { "exit", new ExitSshCommand() },
                 { "decrypt", new DecryptionCommand() },
+                { "cls", new ClearScreenCommand() },
                 // { "touch", new TouchCommand() },
                 // { "rm", new RemoveCommand() },
-                // { "clear", new ClearCommand() },
                 // { "pwd", new PrintWorkingDirectoryCommand() },
                 // { "echo", new EchoCommand() },
                 // { "help", new HelpCommand() }
@@ -36,8 +36,8 @@ namespace Commands
             string cmd = message.Split(' ')[0];
             string[] args = message.Split(' ')[1..] ?? Array.Empty<string>();
 
-            // notify the user where the command came from
-            TerminalControl.Instance.WriteLineToConsole(TerminalControl.Instance.InputHeader);
+            // notify the user where the command came from and what command was used
+            TerminalControl.Instance.WriteLineToConsole(TerminalControl.Instance.InputHeader + " " + message);
 
             if (m_commands.TryGetValue(cmd, out ICommand command))
             {

@@ -123,5 +123,11 @@ namespace Terminal
             yield return new WaitForEndOfFrame();
             m_textDisplayScrollContainer.verticalNormalizedPosition = 0;
         }
+
+        public void ClearConsoleText()
+        {
+            m_textDisplay.text = String.Empty;
+            StartCoroutine(ScrollToBottom());
+        }
     }
 }
