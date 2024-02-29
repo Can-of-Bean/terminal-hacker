@@ -36,7 +36,7 @@ namespace Commands
             }
         }
 
-        public string Name { get; }
-        public string Description { get; }
+        public string Name { get; } = "cat";
+        public string Description { get; } = "outputs a file to console";
     }
 }

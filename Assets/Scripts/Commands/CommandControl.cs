@@ -1,26 +1,28 @@
 using System;
 using System.Collections.Generic;
+using Commands.Decryption;
 using Exceptions;
 using Terminal;
 
 namespace Commands
 {
-    public class CommandControl : SingletonBehaviour<CommandControl>
+    public class CommandControl : Singleton<CommandControl>, ITerminalControlTarget
     {
-        private Dictionary<string, ICommand> commands;
+        private readonly Dictionary<string, ICommand> m_commands;
 
-        public void Start()
+        public CommandControl()
         {
-            TerminalControl.Instance.RawInputSubmitted += OnRawInputSubmitted;
-
             // Initialize the commands dictionary
-            commands = new Dictionary<string, ICommand>
+            m_commands = new Dictionary<string, ICommand>
             {
                 { "ls", new ListCommand() },
                 { "cat", new CatCommand() },
                 { "ssh", new SshCommand()},
                 { "cd", new ChangeDirectoryCommand() },
-                { "mkdir", new MakeDirectoryCommand() }
+                { "mkdir", new MakeDirectoryCommand() },
+                { "exit", new ExitSshCommand() },
+                { "decrypt", new DecryptionCommand() },
+                { "cls", new ClearScreenCommand() },
                 // { "touch", new TouchCommand() },
                 // { "rm", new RemoveCommand() },
                 // { "clear", new ClearCommand() },
@@ -55,13 +57,16 @@ namespace Commands
             }
         }
 
-        private void OnRawInputSubmitted(object sender, TerminalInputEventArgs e)
+        public void HandleUserInput(string message)
         {
-            string cmd = e.Input.Split(' ')[0];
-            string[] args = e.Input.Split(' ')[1..] ?? Array.Empty<string>();
+            string cmd = message.Split(' ')[0];
+            string[] args = message.Split(' ')[1..] ?? Array.Empty<string>();
             Dictionary<string, string> flags = new();
 
-            if (commands.TryGetValue(cmd, out ICommand command))
+            // notify the user where the command came from and what command was used
+            TerminalControl.Instance.WriteLineToConsole(TerminalControl.Instance.InputHeader + " " + message);
+
+            if (m_commands.TryGetValue(cmd, out ICommand command))
             {
                 GetFlags(args, flags);
                 try

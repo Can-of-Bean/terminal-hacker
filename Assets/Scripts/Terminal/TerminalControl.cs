@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
+using Commands;
 using Files;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Terminal
 {
@@ -18,6 +19,9 @@ namespace Terminal
 
         [SerializeField]
         private TextMeshProUGUI m_inputHeaderDisplay = null!;
+
+        [SerializeField]
+        private ScrollRect m_textDisplayScrollContainer = null!;
 
         [SerializeField]
         private string m_inputHeader = String.Empty;
@@ -43,7 +47,7 @@ namespace Terminal
         /// <summary>
         /// Gets or Sets the text target of this terminal control.
         /// </summary>
-        public TerminalControlTarget? ControlTarget { get; set; } = new LoopbackControlTarget();
+        public ITerminalControlTarget? ControlTarget { get; set; } = new CommandControl();
 
         /// <summary>
         /// An event fired when the user submits input.
@@ -105,11 +109,25 @@ namespace Terminal
         public void WriteToConsole(string text)
         {
             m_textDisplay.text += text;
+            
+            StartCoroutine(ScrollToBottom());
         }
 
         public void WriteLineToConsole(string text)
         {
             WriteToConsole(text + "\n");
+        }
+
+        private IEnumerator ScrollToBottom()
+        {
+            yield return new WaitForEndOfFrame();
+            m_textDisplayScrollContainer.verticalNormalizedPosition = 0;
+        }
+
+        public void ClearConsoleText()
+        {
+            m_textDisplay.text = String.Empty;
+            StartCoroutine(ScrollToBottom());
         }
     }
 }

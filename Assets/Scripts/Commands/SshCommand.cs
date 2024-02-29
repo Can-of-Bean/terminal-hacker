@@ -6,8 +6,8 @@ namespace Commands
 {
     public class SshCommand : ICommand
     {
-        private readonly string _host = "219.22.98.32";
-        private readonly string _username = "root";
+        private readonly string m_host = "219.22.98.32";
+        private readonly string m_username = "root";
 
         public void Execute(string[] args, Dictionary<string, string> flags)
         {
@@ -17,10 +17,11 @@ namespace Commands
                 return;
             }
 
-            if (args[0] == $"{_username}@{_host}")
+            if (args[0] == $"{m_username}@{m_host}")
             {
                 TerminalControl.Instance.WriteLineToConsole("Connected to remote server");
                 TerminalControl.Instance.CurrentFileSystem = RemoteFileSystem.Instance;
+                TerminalControl.Instance.InputHeader = $"{m_username}@{m_host}";
             }
             else
             {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Exceptions;
 using UnityEngine;
@@ -22,6 +23,20 @@ namespace Files
             Items = new List<IFileSystemItem>();
             Parent = parent;
         }
+        
+        public Directory GetOrAddDirectory(string path)
+        {
+            Directory current = this;
+            string[] sections = path.Split('/');
+
+            foreach (string section in sections)
+            {
+                Directory? subdirectory = current.FindSubdirectory(section);
+                current = subdirectory ?? AddItem(new Directory(section));
+            }
+
+            return current;
+        }
 
         public T AddItem<T>(T item) where T : IFileSystemItem
         {
@@ -35,9 +50,38 @@ namespace Files
             return item;
         }
 
+        public File? FindFile(string path)
+        {
+            if (FindItem(path) is File file)
+                return file;
+
+            return null;
+        }
+
+        public Directory? FindSubdirectory(string path)
+        {
+            if (FindItem(path) is Directory directory)
+                return directory;
+
+            return null;
+        }
+
+        public IFileSystemItem? FindItem(string path)
+        {
+            try
+            {
+                IFileSystemItem fileSystemItem = GetItem(path);
+                return fileSystemItem;
+            }
+            catch (FileSystemException e)
+            {
+                return null;
+            }
+        }
+
         public IFileSystemItem GetItem(string path)
         {
-            string[] pathParts = path.Split('/');
+            string[] pathParts = path.TrimEnd('/').Split('/');
             IFileSystemItem current = this;
             for (int i = 0; i < pathParts.Length; i++)
             {
