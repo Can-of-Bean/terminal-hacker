@@ -28,7 +28,7 @@ namespace Commands
 
             if (fileSystemItem is File file)
             {
-                TerminalControl.Instance.WriteToConsole(file.Content);
+                TerminalControl.Instance.WriteLineToConsole(file.Content);
             }
             else
             {
