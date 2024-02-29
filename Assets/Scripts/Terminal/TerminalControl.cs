@@ -78,7 +78,7 @@ namespace Terminal
                 // clear currently input text
                 m_textInputField.text = String.Empty;
             }
-
+            
             // ensure the input field is selected if it is enabled and should be usable
             if (m_textInputField.gameObject.activeSelf)
             {
