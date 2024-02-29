@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Files;
 using Terminal;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace Commands
 {
     public class ListCommand : ICommand
     {
-        public void Execute(string[] args)
+        public void Execute(string[] args, Dictionary<string, string> flags)
         {
             if (args.Length == 0)
             {

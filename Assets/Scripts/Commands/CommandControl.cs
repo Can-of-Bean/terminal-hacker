@@ -25,25 +25,53 @@ namespace Commands
                 { "cls", new ClearScreenCommand() },
                 // { "touch", new TouchCommand() },
                 // { "rm", new RemoveCommand() },
+                // { "clear", new ClearCommand() },
                 // { "pwd", new PrintWorkingDirectoryCommand() },
                 // { "echo", new EchoCommand() },
                 // { "help", new HelpCommand() }
             };
         }
 
+        private void GetFlags(string[] args, Dictionary<string, string> flags)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i].StartsWith('-'))
+                {
+                    string flag = args[i].Remove(0, 1);
+                    string value = args[i + 1];
+                    flags.Add(flag, value);
+                    args[i] = string.Empty;
+                    args[i + 1] = string.Empty;
+                    i++;
+                }
+                if (args[i].StartsWith("--"))
+                {
+                    string flag = args[i].Remove(0, 2);
+                    string value = args[i + 1];
+                    flags.Add(flag, value);
+                    args[i] = string.Empty;
+                    args[i + 1] = string.Empty;
+                    i++;
+                }
+            }
+        }
+
         public void HandleUserInput(string message)
         {
             string cmd = message.Split(' ')[0];
             string[] args = message.Split(' ')[1..] ?? Array.Empty<string>();
+            Dictionary<string, string> flags = new();
 
             // notify the user where the command came from and what command was used
             TerminalControl.Instance.WriteLineToConsole(TerminalControl.Instance.InputHeader + " " + message);
 
             if (m_commands.TryGetValue(cmd, out ICommand command))
             {
+                GetFlags(args, flags);
                 try
                 {
-                    command.Execute(args);
+                    command.Execute(args, flags);
                 }
                 catch (CommandException ex)
                 {

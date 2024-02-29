@@ -1,11 +1,12 @@
-﻿using Files;
+﻿using System.Collections.Generic;
+using Files;
 using Terminal;
 
 namespace Commands
 {
     public class ExitSshCommand : ICommand
     {
-        public void Execute(string[] args)
+        public void Execute(string[] args, Dictionary<string, string> flags)
         {
             if (TerminalControl.Instance.CurrentFileSystem is RemoteFileSystem)
             {

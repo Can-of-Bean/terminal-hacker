@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Exceptions;
 using Files;
 using Terminal;
@@ -6,7 +7,7 @@ namespace Commands
 {
     public class CatCommand : ICommand
     {
-        public void Execute(string[] args)
+        public void Execute(string[] args, Dictionary<string, string> flags)
         {
             if (args.Length == 0)
             {
@@ -27,7 +28,7 @@ namespace Commands
 
             if (fileSystemItem is File file)
             {
-                TerminalControl.Instance.WriteToConsole(file.Content);
+                TerminalControl.Instance.WriteLineToConsole(file.Content);
             }
             else
             {

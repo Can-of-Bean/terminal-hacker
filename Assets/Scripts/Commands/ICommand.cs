@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Commands
 {
     public interface ICommand
@@ -5,7 +7,7 @@ namespace Commands
         /// <summary>
         /// Execute the command
         /// </summary>
-        void Execute(string[] args);
+        void Execute(string[] args, Dictionary<string, string> flags);
 
         /// <summary>
         /// The Name property represents the name of the command.
