@@ -10,33 +10,26 @@ namespace Commands.Decryption.DecryptionMethods
     {
         public string Decrypt(string fileContents, string key)
         {
-            // create aes manager
-            using Aes aes = Aes.Create();
-            
-            // get file contents as byte span
-            ReadOnlySpan<byte> messageBytes = Convert.FromBase64String(fileContents);
+            byte[] encryptedBytes = Convert.FromBase64String(fileContents);
 
-            // iv is first 16 bytes of the file
-            ReadOnlySpan<byte> iv = messageBytes.Slice(0, 16);
-                
-            // get the data part of the file
-            ReadOnlySpan<byte> encryptedMessage = messageBytes.Slice(16);
+            // Create AES manager and set block size
+            Aes aesDecrypt = Aes.Create();
+            aesDecrypt.BlockSize = 128;
 
-            // set iv and key
-            aes.IV = iv.ToArray();
+            // Set key using MD5
             using MD5 md5 = MD5.Create();
-            aes.Key = md5.ComputeHash(Encoding.Unicode.GetBytes(key));
+            aesDecrypt.Key = md5.ComputeHash(Encoding.Unicode.GetBytes(key));
 
-            // get the decrypt transformer and decrypt the data
-            using ICryptoTransform? decryptTransformer = aes.CreateDecryptor();
-            
-            // read data using streams
-            using MemoryStream dataStream = new MemoryStream(encryptedMessage.ToArray());
-            using CryptoStream cryptoStream = new CryptoStream(dataStream, decryptTransformer, CryptoStreamMode.Read);
-            using StreamReader sr = new StreamReader(cryptoStream);
-            
-            string result = sr.ReadToEnd();
-            return result;
+            // Set IV using first 16 bytes of the file
+            byte[] iv = new byte[16];
+            Array.Copy(encryptedBytes, iv, 16);
+            aesDecrypt.IV = iv;
+
+            // Get the data part of the file and decrypt it
+            ICryptoTransform decryptor = aesDecrypt.CreateDecryptor();
+            byte[] decryptedBytes = decryptor.TransformFinalBlock(encryptedBytes, 16, encryptedBytes.Length - 16);
+
+            return  Encoding.Unicode.GetString(decryptedBytes);;
         }
 
         public bool RequiresKey { get; } = true;
