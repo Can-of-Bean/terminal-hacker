@@ -17,7 +17,7 @@ namespace Files
             
             if (RemoteFilesystemRootCatalogue != null)
             {
-                RemoteFilesystemRootCatalogue.AddToDirectory(LocalFileSystem.Instance.Root);
+                RemoteFilesystemRootCatalogue.AddToDirectory(RemoteFileSystem.Instance.Root);
             }
         }
     }

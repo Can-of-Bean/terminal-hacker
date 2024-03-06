@@ -31,8 +31,9 @@ namespace Files
 
             foreach (string section in sections)
             {
+                if (section == "") continue;
                 Directory? subdirectory = current.FindSubdirectory(section);
-                current = subdirectory ?? AddItem(new Directory(section));
+                current = subdirectory ?? AddItem(new Directory(section, current));
             }
 
             return current;

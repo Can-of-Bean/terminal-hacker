@@ -399,7 +399,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LocalFilesystemRootCatalogue: {fileID: 11400000, guid: 9223b1b2cdac8254dbf9c5f62b659aab,
     type: 2}
-  RemoteFilesystemRootCatalogue: {fileID: 0}
+  RemoteFilesystemRootCatalogue: {fileID: 11400000, guid: be4c73b3f2071114083f408fd646f87e,
+    type: 2}
 --- !u!4 &315815134
 Transform:
   m_ObjectHideFlags: 0

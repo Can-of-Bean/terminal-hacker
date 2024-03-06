@@ -16,18 +16,18 @@ namespace Files
         public void AddToDirectory(Directory directory)
         {
             // add this directory
-            directory.GetOrAddDirectory(FolderName);
+            Directory newDirectory = directory.GetOrAddDirectory(FolderName);
             
             // depth first recursive call to add subfolders
             foreach (FileSystemCatalogue subdirectory in Subdirectories)
             {
-                subdirectory.AddToDirectory(directory);
+                subdirectory.AddToDirectory(newDirectory);
             }
 
             // add all child files
             foreach (FileSystemCatalogueEntry catalogueEntry in Files)
             {
-                directory.AddItem(new File(catalogueEntry.Name, catalogueEntry.File.text));
+                newDirectory.AddItem(new File(catalogueEntry.Name, catalogueEntry.File.text));
             }
         }
     }

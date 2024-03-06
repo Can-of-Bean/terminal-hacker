@@ -1,0 +1,2 @@
+Your task if you choose to accept it.
+Is to ssh into the server (219.22.98.32) and find the server admin password.

@@ -1,4 +1,6 @@
+using System;
 using Exceptions;
+using Terminal;
 
 namespace Files
 {
@@ -12,26 +14,45 @@ namespace Files
         {
             Name = "Remote File System";
             Root = new Directory("Root");
-            SetupRoot();
             CurrentDirectory = Root;
         }
 
         public void ChangeDirectory(string path)
         {
-            IFileSystemItem fileSystemItem = Root.GetItem(path);
-            if (fileSystemItem is Directory)
+            IFileSystemItem fileSystemItem;
+
+            if (path == "/")
             {
-                CurrentDirectory = (Directory) fileSystemItem;
+                CurrentDirectory = Root;
+                ChangeHeader();
+                return;
+            }
+            if (path.StartsWith('/'))
+            {
+                path = path.Remove(0, 1);
+                fileSystemItem = Root.GetItem(path);
             }
             else
             {
-                throw new FileSystemException("Not a directory.");
+                fileSystemItem = CurrentDirectory.GetItem(path);
+            }
+
+            if (fileSystemItem is Directory item)
+            {
+                CurrentDirectory = item;
+                ChangeHeader();
+            }
+            else
+            {
+                throw new FileSystemException($"{path} is not a directory.");
             }
         }
 
-        public void SetupRoot()
+        private void ChangeHeader()
         {
-
+            String inputHeader = TerminalControl.Instance.InputHeader;
+            inputHeader = inputHeader.Split(' ')[0];
+            TerminalControl.Instance.InputHeader = $"{inputHeader} {CurrentDirectory.GetPath()} >";
         }
     }
 }

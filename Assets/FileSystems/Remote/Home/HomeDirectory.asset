@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9e6825e30a84962992f893971fa8a58, type: 3}
-  m_Name: HomeFolder
+  m_Name: HomeDirectory
   m_EditorClassIdentifier: 
   FolderName: home
-  Subdirectories: []
-  Files:
-  - File: {fileID: 4900000, guid: 1cc770f4ec7b47868e99a98db74e9d6c, type: 3}
-    Name: base64encoded.txt
+  Subdirectories:
+  - {fileID: 11400000, guid: e69905a9f9a54d94f9f2e9062d4862cf, type: 2}
+  Files: []
