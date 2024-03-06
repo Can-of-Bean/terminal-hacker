@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f9c0f6d44643518a24ade3492b7cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalFilesystemRootCatalogue: {fileID: 11400000, guid: 9223b1b2cdac8254dbf9c5f62b659aab,
+  LocalFilesystemRootCatalogue: {fileID: 11400000, guid: dde4410474801f94ea9cfc1608223a1f,
     type: 2}
   RemoteFilesystemRootCatalogue: {fileID: 11400000, guid: be4c73b3f2071114083f408fd646f87e,
     type: 2}
