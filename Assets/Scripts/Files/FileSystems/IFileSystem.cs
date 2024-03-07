@@ -6,8 +6,6 @@ namespace Files
         Directory Root { get; }
         Directory CurrentDirectory { get; }
 
-        void SetupRoot();
-
         void ChangeDirectory(string path);
     }
 }

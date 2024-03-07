@@ -10,14 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9e6825e30a84962992f893971fa8a58, type: 3}
-  m_Name: HomeFolder
+  m_Name: RemoteRootDirectory
   m_EditorClassIdentifier: 
-  FolderName: home
-  Subdirectories: []
-  Files:
-  - File: {fileID: 4900000, guid: 1cc770f4ec7b47868e99a98db74e9d6c, type: 3}
-    Name: base64encoded.txt
-  - File: {fileID: 4900000, guid: 2116f3007cbe2294991e7b3b2e3541d1, type: 3}
-    Name: aestarget.txt
-  - File: {fileID: 4900000, guid: e015fe0cbdc1d5c4d81bb469a3bfbb63, type: 3}
-    Name: key.txt
+  FolderName: 
+  Subdirectories:
+  - {fileID: 11400000, guid: eb6d89136bf7ca44ebd9e9c23b22e25c, type: 2}
+  Files: []

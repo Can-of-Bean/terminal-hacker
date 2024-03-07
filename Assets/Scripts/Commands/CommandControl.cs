@@ -4,7 +4,6 @@ using Commands.Decryption;
 using Commands.Encryption;
 using Exceptions;
 using Terminal;
-using UnityEngine;
 
 namespace Commands
 {
@@ -29,12 +28,7 @@ namespace Commands
 #if UNITY_EDITOR
                 { "debugwrite", new DebugWriteToExternalFileCommand() },
 #endif
-                // { "touch", new TouchCommand() },
-                // { "rm", new RemoveCommand() },
-                // { "clear", new ClearCommand() },
-                // { "pwd", new PrintWorkingDirectoryCommand() },
-                // { "echo", new EchoCommand() },
-                // { "help", new HelpCommand() }
+                { "rm", new RemoveCommand() },
             };
         }
 
