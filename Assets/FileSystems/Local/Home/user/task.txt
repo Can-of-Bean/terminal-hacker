@@ -1,2 +1,4 @@
 Your task if you choose to accept it.
-Is to ssh into the server (219.22.98.32) and find the server admin password.
+Is to ssh into the server (219.22.98.32) and find the server admin password which is encrypted using Base64 encryption.
+
+Once you have that you get access to their funny quotes file which is encrypted using AES encryption.
