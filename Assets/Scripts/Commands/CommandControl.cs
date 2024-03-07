@@ -23,12 +23,7 @@ namespace Commands
                 { "exit", new ExitSshCommand() },
                 { "decrypt", new DecryptionCommand() },
                 { "cls", new ClearScreenCommand() },
-                // { "touch", new TouchCommand() },
-                // { "rm", new RemoveCommand() },
-                // { "clear", new ClearCommand() },
-                // { "pwd", new PrintWorkingDirectoryCommand() },
-                // { "echo", new EchoCommand() },
-                // { "help", new HelpCommand() }
+                { "rm", new RemoveCommand() },
             };
         }
 
