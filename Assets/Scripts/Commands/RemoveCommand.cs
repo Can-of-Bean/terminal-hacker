@@ -17,16 +17,25 @@ namespace Commands
 
             IFileSystemItem fileSystemItem;
             string path = args[0];
-            string pathToParent = path.Substring(0, path.LastIndexOf('/'));
-            string fileName = path.Substring(path.LastIndexOf('/') + 1);
-            if (pathToParent.StartsWith('/'))
+            string fileName;
+            if (path.Contains('/'))
             {
-                pathToParent = pathToParent.Remove(0, 1);
-                fileSystemItem = TerminalControl.Instance.CurrentFileSystem.Root.GetItem(pathToParent);
+                string pathToParent = path.Substring(0, path.LastIndexOf('/'));
+                fileName = path.Substring(path.LastIndexOf('/') + 1);
+                if (pathToParent.StartsWith('/'))
+                {
+                    pathToParent = pathToParent.Remove(0, 1);
+                    fileSystemItem = TerminalControl.Instance.CurrentFileSystem.Root.GetItem(pathToParent);
+                }
+                else
+                {
+                    fileSystemItem = TerminalControl.Instance.CurrentFileSystem.CurrentDirectory.GetItem(pathToParent);
+                }
             }
             else
             {
-                fileSystemItem = TerminalControl.Instance.CurrentFileSystem.CurrentDirectory.GetItem(pathToParent);
+                fileSystemItem = TerminalControl.Instance.CurrentFileSystem.CurrentDirectory;
+                fileName = path;
             }
 
             if (fileSystemItem == null)
