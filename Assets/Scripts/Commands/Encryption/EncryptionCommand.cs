@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using Commands.Decryption.DecryptionMethods;
+using Commands.Decryption;
+using Commands.Encryption.EncryptionMethods;
 using Files;
 using Terminal;
-using TMPro;
 
-namespace Commands.Decryption
+namespace Commands.Encryption
 {
-    public class DecryptionCommand : ICommand
+    public class EncryptionCommand : ICommand
     {
-        private const string USAGE_HELP = "decrypt <source file> <destination file> <decryption type> (optional)<decryption key>";
+        private const string USAGE_HELP = "encrypt <source file> <destination file> <encryption type> (optional)<encryption key>";
 
-        private static readonly Dictionary<string, IDecryptionMethod> s_decryptionMethods;
+        private static readonly Dictionary<string, IEncryptionMethod> s_encryptionMethods;
 
-        static DecryptionCommand()
+        static EncryptionCommand()
         {
-            s_decryptionMethods = new Dictionary<string, IDecryptionMethod>()
+            s_encryptionMethods = new Dictionary<string, IEncryptionMethod>()
             {
-                { "base64", new Base64DecryptionMethod() },
-                { "aes", new AesDecryptionMethod() },
+                { "base64", new Base64EncryptionMethod() },
+                { "aes", new AesEncryptionMethod() },
             };
         }
 
@@ -26,7 +26,7 @@ namespace Commands.Decryption
         {
             if (args.Length < 3 || args.Length > 4)
             {
-                TerminalControl.Instance.WriteLineToConsole("Decrypt must take in between 3 and 4 arguments\nUsage: " + USAGE_HELP);
+                TerminalControl.Instance.WriteLineToConsole("Encrypt must take in between 3 and 4 arguments\nUsage: " + USAGE_HELP);
                 return;
             }
 
@@ -46,13 +46,13 @@ namespace Commands.Decryption
             // select the key to use
             // or notify the user and exit on an error
             string key;
-            if (s_decryptionMethods.TryGetValue(args[2], out IDecryptionMethod method))
+            if (s_encryptionMethods.TryGetValue(args[2], out IEncryptionMethod method))
             {
                 if (method.RequiresKey)
                 {
                     if (args.Length == 3)
                     {
-                        TerminalControl.Instance.WriteLineToConsole($"This decryption method requires a key but non was provided.");
+                        TerminalControl.Instance.WriteLineToConsole($"This encryption method requires a key but non was provided.");
                         return;
                     }
                     else
@@ -67,17 +67,24 @@ namespace Commands.Decryption
             }
             else
             {
-                TerminalControl.Instance.WriteLineToConsole($"Could not determine decryption method {args[2]}");
+                TerminalControl.Instance.WriteLineToConsole($"Could not determine encryption method {args[2]}");
                 return;
             }
-            
-            Decrypt(method, sourceFile, args[1], key);
-            TerminalControl.Instance.WriteLineToConsole($"Decrypted to {args[1]}");
+
+            try
+            {
+                Encrypt(method, sourceFile, args[1], key);
+                TerminalControl.Instance.WriteLineToConsole($"Encrypted to {args[1]}");
+            }
+            catch (Exception e)
+            {
+                TerminalControl.Instance.WriteLineToConsole($"An error occured while encrypting:\n{e.Message}");
+            }
         }
 
-        private void Decrypt(IDecryptionMethod method, File source, string destination, string key)
+        private void Encrypt(IEncryptionMethod method, File source, string destination, string key)
         {
-            string decryptedText = method.Decrypt(source.Content, key);
+            string decryptedText = method.Encrypt(source.Content, key);
             File? destinationFile = TerminalControl.Instance.CurrentFileSystem.CurrentDirectory.FindFile(destination);
 
             if (destinationFile == null)
@@ -88,7 +95,7 @@ namespace Commands.Decryption
             destinationFile.Content = decryptedText;
         }
 
-        public string Name { get; } = "decrypt";
-        public string Description { get; } = "Decrypts a file\nUsage: " + USAGE_HELP;
+        public string Name { get; } = "encrypt";
+        public string Description { get; } = "Encrypts a file\nUsage: " + USAGE_HELP;
     }
 }

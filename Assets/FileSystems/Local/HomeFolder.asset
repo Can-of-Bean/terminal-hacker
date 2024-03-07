@@ -17,3 +17,7 @@ MonoBehaviour:
   Files:
   - File: {fileID: 4900000, guid: 1cc770f4ec7b47868e99a98db74e9d6c, type: 3}
     Name: base64encoded.txt
+  - File: {fileID: 4900000, guid: 2116f3007cbe2294991e7b3b2e3541d1, type: 3}
+    Name: aestarget.txt
+  - File: {fileID: 4900000, guid: e015fe0cbdc1d5c4d81bb469a3bfbb63, type: 3}
+    Name: key.txt

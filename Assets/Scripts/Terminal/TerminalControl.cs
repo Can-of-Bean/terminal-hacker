@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Commands;
 using Files;
 using TMPro;
@@ -11,6 +14,9 @@ namespace Terminal
 {
     public class TerminalControl : SingletonBehaviour<TerminalControl>
     {
+        private static readonly HashSet<char> s_knownGoodCharacters = new HashSet<char>();
+        private static readonly HashSet<char> s_knownBadCharacters = new HashSet<char>();
+
         [SerializeField]
         private TMP_InputField m_textInputField = null!;
 
@@ -108,8 +114,8 @@ namespace Terminal
 
         public void WriteToConsole(string text)
         {
-            m_textDisplay.text += text;
-            
+            m_textDisplay.text += ConvertStringToReadableCharacters(text);
+
             StartCoroutine(ScrollToBottom());
         }
 
@@ -128,6 +134,52 @@ namespace Terminal
         {
             m_textDisplay.text = String.Empty;
             StartCoroutine(ScrollToBottom());
+        }
+
+        private string ConvertStringToReadableCharacters(string input)
+        {
+            const char badCharacterPlaceholder = '\u25A1';
+            
+            // create the builder for the result string
+            StringBuilder outputBuilder = new StringBuilder();
+
+            // get a collection of unique characters in the text and loop through them
+            foreach (char c in input)
+            {
+                // font supporting the character is known
+                if (s_knownGoodCharacters.Contains(c))
+                {
+                    outputBuilder.Append(c);
+                    continue;
+                }
+
+                // font not supporting the character is known
+                if (s_knownBadCharacters.Contains(c))
+                {
+                    outputBuilder.Append(badCharacterPlaceholder);
+                    continue;
+                }
+                
+                // check if the font does not support the character
+                if (!m_textDisplay.font.HasCharacter(c))
+                {
+                    // then change the character in the output to a placeholder
+                    outputBuilder.Append(badCharacterPlaceholder);
+                            
+                    // record bad character
+                    s_knownBadCharacters.Add(c);
+                }
+                else
+                {
+                    // record good character
+                    s_knownGoodCharacters.Add(c);
+                    
+                    // allow good character to pass through
+                    outputBuilder.Append(c);
+                }
+            }
+
+            return outputBuilder.ToString();
         }
     }
 }
