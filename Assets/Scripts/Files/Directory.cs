@@ -74,7 +74,7 @@ namespace Files
                 IFileSystemItem fileSystemItem = GetItem(path);
                 return fileSystemItem;
             }
-            catch (FileSystemException e)
+            catch (FileSystemException)
             {
                 return null;
             }
