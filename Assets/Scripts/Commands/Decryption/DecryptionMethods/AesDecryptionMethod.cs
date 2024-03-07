@@ -13,7 +13,7 @@ namespace Commands.Decryption.DecryptionMethods
             byte[] encryptedBytes = Convert.FromBase64String(fileContents);
 
             // Create AES manager and set block size
-            Aes aesDecrypt = Aes.Create();
+            using Aes aesDecrypt = Aes.Create();
             aesDecrypt.BlockSize = 128;
 
             // Set key using MD5

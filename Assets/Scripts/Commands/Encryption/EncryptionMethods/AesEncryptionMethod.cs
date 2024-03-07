@@ -10,7 +10,7 @@ namespace Commands.Encryption.EncryptionMethods
         public string Encrypt(string message, string key)
         {
             // Create AES manager and set block and key size
-            Aes aes = Aes.Create();
+            using Aes aes = Aes.Create();
             aes.BlockSize = 128;
             aes.KeySize = 128;
 
