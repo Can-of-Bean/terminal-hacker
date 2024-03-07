@@ -22,7 +22,11 @@ namespace Commands
                 { "mkdir", new MakeDirectoryCommand() },
                 { "exit", new ExitSshCommand() },
                 { "decrypt", new DecryptionCommand() },
+                { "encrypt", new EncryptionCommand() },
                 { "cls", new ClearScreenCommand() },
+#if UNITY_EDITOR
+                { "debugwrite", new DebugWriteToExternalFileCommand() },
+#endif
                 { "rm", new RemoveCommand() },
             };
         }
