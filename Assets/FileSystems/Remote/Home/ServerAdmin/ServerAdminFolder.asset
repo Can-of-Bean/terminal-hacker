@@ -17,3 +17,5 @@ MonoBehaviour:
   Files:
   - File: {fileID: 4900000, guid: 935c376fae8e30647b872947cc524a3c, type: 3}
     Name: my-password.txt
+  - File: {fileID: 4900000, guid: d1c78f699a06404e880e4d519993edf6, type: 3}
+    Name: Funny-Quotes.txt
