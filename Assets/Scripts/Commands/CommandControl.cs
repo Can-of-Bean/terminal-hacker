@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Commands.Decryption;
-using Commands.Encryption;
 using Exceptions;
 using Terminal;
 
